@@ -1,0 +1,36 @@
+
+{
+    "version": "2.0.0",
+    "tasks": 
+    [
+        {
+            "label": "build",
+            "command": "g++",
+            "type": "shell",
+            "args": [
+                "-Wall",
+                "-oGame",
+                "-g",
+                "Rendering/GameWindow.cpp",
+                "Rendering/Renderer.cpp",
+                "Rendering/RenderInstanceManager.cpp",
+                "Core/Game.cpp",
+                "main.cpp", 
+                "-lSDL2"
+            ],
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "launch",
+            "command": "./Game",
+            "type": "shell", 
+            "args": [],
+        }
+    ]
+}
