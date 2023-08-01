@@ -60,7 +60,7 @@ void Game::Update()
         }
     }
 
-    RenderInstanceManager::instance().GetRenderer("main")->SetDrawColor(0, 0, 0, 255);
-    //RenderInstanceManager::instance().GetRenderer("main")->Clear();
-    //RenderInstanceManager::instance().GetRenderer("main")->Present();
+    SDL_RenderClear(RenderInstanceManager::instance().GetRenderer("main"));
+    SDL_SetRenderDrawColor(RenderInstanceManager::instance().GetRenderer("main"), 0, 0, 0, 255);
+    SDL_RenderPresent(RenderInstanceManager::instance().GetRenderer("main"));
 }

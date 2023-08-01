@@ -12,7 +12,6 @@
                 "-oGame",
                 "-g",
                 "Rendering/GameWindow.cpp",
-                "Rendering/Renderer.cpp",
                 "Rendering/RenderInstanceManager.cpp",
                 "Core/Game.cpp",
                 "main.cpp", 
