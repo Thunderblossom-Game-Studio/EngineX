@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h> // SDL_Init, SDL_Quit
 #include "../Rendering/GameWindow.h"
 #include "../Rendering/RenderInstanceManager.h"
+#include "InputManager.h"
 
 Game::Game(token)
 {
@@ -45,6 +46,7 @@ bool Game::Init()
 
 void Game::Update()
 {
+    // SDL Event handling loop
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -59,6 +61,10 @@ void Game::Update()
         }
     }
 
+    // Updates input state and performs any bound callbacks
+    InputManager::instance().Update();
+
+    // Placeholder render loop
     RenderInstanceManager::instance().GetRenderer("main")->Clear();
     RenderInstanceManager::instance().GetRenderer("main")->SetDrawColor(0, 255, 0, 255);
     RenderInstanceManager::instance().GetRenderer("main")->Present();

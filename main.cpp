@@ -10,7 +10,7 @@ int main(int argv, char** argc)
         return -1;
     }
 
-    int lifespan = 1000;
+    int lifespan = 100;
 
     while(lifespan > 0)
     {
