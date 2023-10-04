@@ -1,9 +1,7 @@
 #include "Renderer.h"
 
 #include <iostream> // std::cout, std::endl
-
 #include <SDL2/SDL.h> // SDL_CreateRenderer, SDL_DestroyRenderer, SDL_RENDERER_ACCELERATED, SDL_RENDERER_PRESENTVSYNC
-
 #include "GameWindow.h" // Game::GetWindow
 
 GameRenderer::GameRenderer(SDL_Window* pWindow)

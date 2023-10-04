@@ -13,6 +13,8 @@
                 "-g",
                 "Rendering/GameWindow.cpp",
                 "Rendering/RenderInstanceManager.cpp",
+                "Rendering/Renderer.cpp",
+                "Rendering/RaycastRenderer.cpp",
                 "Core/Game.cpp",
                 "main.cpp", 
                 "-lSDL2"

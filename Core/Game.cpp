@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h> // SDL_Init, SDL_Quit
 #include "../Rendering/GameWindow.h"
 #include "../Rendering/RenderInstanceManager.h"
-//#include "../Rendering/Renderer.h"
 
 Game::Game(token)
 {
@@ -60,7 +59,7 @@ void Game::Update()
         }
     }
 
-    SDL_RenderClear(RenderInstanceManager::instance().GetRenderer("main"));
-    SDL_SetRenderDrawColor(RenderInstanceManager::instance().GetRenderer("main"), 0, 0, 0, 255);
-    SDL_RenderPresent(RenderInstanceManager::instance().GetRenderer("main"));
+    RenderInstanceManager::instance().GetRenderer("main")->Clear();
+    RenderInstanceManager::instance().GetRenderer("main")->SetDrawColor(0, 255, 0, 255);
+    RenderInstanceManager::instance().GetRenderer("main")->Present();
 }

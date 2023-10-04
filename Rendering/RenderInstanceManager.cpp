@@ -4,6 +4,9 @@
 #include "GameWindow.h" // GameWindow::instance
 #include <SDL2/SDL.h> // SDL_Renderer, SDL_CreateRenderer, SDL_DestroyRenderer
 
+#include "Renderer.h" // GameRenderer
+#include "RaycastRenderer.h" // RaycastRenderer
+
 RenderInstanceManager::RenderInstanceManager(token)
 {}
 
@@ -13,15 +16,37 @@ RenderInstanceManager::~RenderInstanceManager()
     ClearRenderers();
 }
 
-SDL_Renderer* RenderInstanceManager::AddRenderer(const char* id)
+// SDL_Renderer* RenderInstanceManager::AddRenderer(const char* id)
+// {
+//     if (_renderers.find(id) == _renderers.end())
+//     {
+//         _renderers[id] = std::unique_ptr<SDL_Renderer, SDLRendererDestroyer>(SDL_CreateRenderer(GameWindow::instance().GetWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
+//         std::cout << "Renderer created" << std::endl;
+//     }
+
+//     return _renderers.at(id).get();
+// }
+
+GameRenderer* RenderInstanceManager::AddRenderer(const char* id)
 {
     if (_renderers.find(id) == _renderers.end())
     {
-        _renderers[id] = std::unique_ptr<SDL_Renderer, SDLRendererDestroyer>(SDL_CreateRenderer(GameWindow::instance().GetWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
+        _renderers[id] = std::unique_ptr<GameRenderer>(new GameRenderer(GameWindow::instance().GetWindow()));
         std::cout << "Renderer created" << std::endl;
     }
 
     return _renderers.at(id).get();
+}
+
+RaycastRenderer* RenderInstanceManager::AddRaycastRenderer(const char* id)
+{
+    if (_renderers.find(id) == _renderers.end())
+    {
+        _renderers[id] = std::unique_ptr<RaycastRenderer>(new RaycastRenderer(GameWindow::instance().GetWindow()));
+        std::cout << "Renderer created" << std::endl;
+    }
+
+    return static_cast<RaycastRenderer*>(_renderers.at(id).get());
 }
 
 void RenderInstanceManager::RemoveRenderer(const char* id)
@@ -38,7 +63,17 @@ void RenderInstanceManager::ClearRenderers()
     _renderers.clear();
 }
 
-SDL_Renderer* RenderInstanceManager::GetRenderer(const char* id)
+// SDL_Renderer* RenderInstanceManager::GetRenderer(const char* id)
+// {
+//     if (_renderers.find(id) != _renderers.end())
+//     {
+//         return _renderers.at(id).get();
+//     }
+//     std::cout << "Renderer not found" << std::endl;
+//     return nullptr;
+// }
+
+GameRenderer* RenderInstanceManager::GetRenderer(const char* id)
 {
     if (_renderers.find(id) != _renderers.end())
     {

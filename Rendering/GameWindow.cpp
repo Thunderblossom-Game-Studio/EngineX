@@ -2,6 +2,7 @@
 
 #include <iostream> // std::cout, std::endl
 #include <SDL2/SDL.h> // SDL_Window, SDL_CreateWindow, SDL_DestroyWindow
+#include "../Globals/Config.h"
 
 GameWindow::GameWindow(token)
 {
@@ -15,7 +16,7 @@ GameWindow::~GameWindow()
 
 bool GameWindow::Init()
 {
-    _pWindow = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    _pWindow = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (_pWindow == nullptr)
     {
         std::cout << "SDL_CreateWindow failed: " << SDL_GetError() << std::endl;
