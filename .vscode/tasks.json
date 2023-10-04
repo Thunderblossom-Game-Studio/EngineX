@@ -16,6 +16,7 @@
                 "Rendering/Renderer.cpp",
                 "Rendering/RaycastRenderer.cpp",
                 "Core/Game.cpp",
+                "Core/InputManager.cpp",
                 "main.cpp", 
                 "-lSDL2"
             ],
