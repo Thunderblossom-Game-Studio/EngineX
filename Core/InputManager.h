@@ -21,6 +21,8 @@ public:
     InputManager(token);
     ~InputManager();
 
+    bool Init();
+
     enum KeypressType { KEYDOWN, KEYUP, KEYHELD };
 
     /// @brief Binds a key to a callback function

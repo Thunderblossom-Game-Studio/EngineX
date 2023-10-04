@@ -5,11 +5,27 @@ InputManager::InputManager(token)
 {
 }
 
+/// @brief Automatic cleanup of input manager
 InputManager::~InputManager()
 {
     UnbindAllKeys();
+    delete[] _lastKeyStates;
 }
 
+/// @brief Initializes input manager
+bool InputManager::Init()
+{
+    _keyStates = SDL_GetKeyboardState(NULL);
+    _lastKeyStates = new Uint8[SDL_NUM_SCANCODES];
+    SDL_memcpy(_lastKeyStates, _keyStates, SDL_NUM_SCANCODES);
+
+    return true;
+}
+
+/// @brief Binds a key to a callback function
+/// @param Scancode
+/// @param KeypressType
+/// @param CallbackFunction
 void InputManager::BindKey(SDL_Scancode key, KeypressType type, std::function<void()> callback)
 {
     switch (type)
@@ -28,6 +44,9 @@ void InputManager::BindKey(SDL_Scancode key, KeypressType type, std::function<vo
     }
 }
 
+/// @brief Unbinds a key from a callback function
+/// @param Scancode
+/// @param KeypressType
 void InputManager::UnbindKey(SDL_Scancode key, KeypressType type)
 {
     switch (type)
@@ -46,6 +65,7 @@ void InputManager::UnbindKey(SDL_Scancode key, KeypressType type)
     }
 }
 
+/// @brief Unbinds all keys
 void InputManager::UnbindAllKeys()
 {
     _keyDownCallbacks.clear();
@@ -53,9 +73,11 @@ void InputManager::UnbindAllKeys()
     _keyHeldCallbacks.clear();
 }
 
+/// @brief Updates keystate and performs any bound callbacks
 void InputManager::Update()
 {
     SDL_memcpy(_lastKeyStates, _keyStates, SDL_NUM_SCANCODES);
+
     _keyStates = SDL_GetKeyboardState(NULL);
 
     // Iterates keyDown callbacks and calls bound functions if key has been recently pressed

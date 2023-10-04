@@ -16,17 +16,6 @@ RenderInstanceManager::~RenderInstanceManager()
     ClearRenderers();
 }
 
-// SDL_Renderer* RenderInstanceManager::AddRenderer(const char* id)
-// {
-//     if (_renderers.find(id) == _renderers.end())
-//     {
-//         _renderers[id] = std::unique_ptr<SDL_Renderer, SDLRendererDestroyer>(SDL_CreateRenderer(GameWindow::instance().GetWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
-//         std::cout << "Renderer created" << std::endl;
-//     }
-
-//     return _renderers.at(id).get();
-// }
-
 GameRenderer* RenderInstanceManager::AddRenderer(const char* id)
 {
     if (_renderers.find(id) == _renderers.end())
@@ -43,7 +32,7 @@ RaycastRenderer* RenderInstanceManager::AddRaycastRenderer(const char* id)
     if (_renderers.find(id) == _renderers.end())
     {
         _renderers[id] = std::unique_ptr<RaycastRenderer>(new RaycastRenderer(GameWindow::instance().GetWindow()));
-        std::cout << "Renderer created" << std::endl;
+        std::cout << "Renderer " << id << " created" << std::endl;
     }
 
     return static_cast<RaycastRenderer*>(_renderers.at(id).get());
@@ -54,24 +43,15 @@ void RenderInstanceManager::RemoveRenderer(const char* id)
     if (_renderers.find(id) != _renderers.end())
     {
         _renderers.erase(id);
-        std::cout << "Renderer destroyed" << std::endl;
+        std::cout << "Renderer " << id << " destroyed" << std::endl;
     }
 }
 
 void RenderInstanceManager::ClearRenderers()
 {
     _renderers.clear();
+    std::cout << "Destroyed all renderers" << std::endl;
 }
-
-// SDL_Renderer* RenderInstanceManager::GetRenderer(const char* id)
-// {
-//     if (_renderers.find(id) != _renderers.end())
-//     {
-//         return _renderers.at(id).get();
-//     }
-//     std::cout << "Renderer not found" << std::endl;
-//     return nullptr;
-// }
 
 GameRenderer* RenderInstanceManager::GetRenderer(const char* id)
 {

@@ -3,7 +3,6 @@
 #include "../Templates/Singleton.h"
 #include <map>
 #include <memory>
-//#include <SDL2/SDL.h> // SDL_Renderer, SDL_DestroyRenderer
 
 #include "Renderer.h"
 #include "RaycastRenderer.h"
@@ -11,28 +10,32 @@
 class RenderInstanceManager final : public Singleton<RenderInstanceManager>
 {
 private:
-    // struct SDLRendererDestroyer
-    // {
-    //     void operator()(SDL_Renderer* pRenderer) const
-    //     {
-    //         SDL_DestroyRenderer(pRenderer);
-    //     }
-    // };
-
-
-    //std::map<const char*, std::unique_ptr<SDL_Renderer, SDLRendererDestroyer>> _renderers;
+    /// @brief Map of renderer ids to renderer instances
     std::map<const char*, std::unique_ptr<GameRenderer>> _renderers;
 
 public:
     RenderInstanceManager(token);
     ~RenderInstanceManager();
 
-    //SDL_Renderer* AddRenderer(const char* id);
+    /// @brief Creates a new renderer with the given id
+    /// @param id
+    /// @return GameRenderer*
     GameRenderer* AddRenderer(const char* id);
+
+    /// @brief Creates a new raycast renderer with the given id
+    /// @param id 
+    /// @return RaycastRenderer*
     RaycastRenderer* AddRaycastRenderer(const char* id);
+
+    /// @brief Removes the renderer with the given id
+    /// @param id 
     void RemoveRenderer(const char* id);
+
+    /// @brief Removes all renderers
     void ClearRenderers();
 
-    //SDL_Renderer* GetRenderer(const char* id);
+    /// @brief Returns the renderer with the given id
+    /// @param id 
+    /// @return GameRenderer*
     GameRenderer* GetRenderer(const char* id);
 };

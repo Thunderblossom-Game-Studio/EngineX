@@ -40,6 +40,13 @@ bool Game::Init()
         return false;
     }
 
+    ret = InputManager::instance().Init();
+    if (!ret)
+    {
+        std::cout << "InputManager::Init failed" << std::endl;
+        return false;
+    }
+
     _running = true;
     return true;
 }
