@@ -18,5 +18,5 @@ public:
     void Clear();
     void Present();
     SDL_Renderer* GetRenderer() const { return _pRenderer; }
-    virtual void Render() {};
+    virtual void DrawFrame() {};
 };

@@ -37,6 +37,7 @@
                 "-Wall",
                 "-oGame",
                 "-g",
+                "Globals/DeltaTime.cpp",
                 "Rendering/GameWindow.cpp",
                 "Rendering/RenderInstanceManager.cpp",
                 "Rendering/Renderer.cpp",
