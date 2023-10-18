@@ -6,8 +6,8 @@
 class LevelFactory : public Singleton<LevelFactory>
 {  
 public:
-    LevelFactory();
+    LevelFactory(token);
     ~LevelFactory();
 
-    Level* CreateLevel();
+    std::shared_ptr<Level> CreateLevel();
 };

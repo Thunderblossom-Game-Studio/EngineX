@@ -9,15 +9,16 @@
 class LevelManager : public Singleton<LevelManager>
 {
 private:
-    std::map<const char*, std::shared_ptr<Level>> _levels;
+    //std::map<const char*, std::shared_ptr<Level>> _levels;
+    std::shared_ptr<Level> _level;
 
 public:
-    LevelManager(token);
-    ~LevelManager();
+    LevelManager(token) {};
+    ~LevelManager() {};
 
-    std::shared_ptr<Level> GetLevel(const char* levelName);
+    std::shared_ptr<Level> GetLevel();
 
-    void AddLevel(const char* levelName, std::shared_ptr<Level> level);
+    void LoadLevel(std::shared_ptr<Level> level);
 
     void RemoveLevel(const char* levelName);
 

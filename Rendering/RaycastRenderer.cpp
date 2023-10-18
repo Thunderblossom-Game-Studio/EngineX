@@ -1,51 +1,53 @@
 #include "RaycastRenderer.h"
 #include "../Globals/Config.h"
-//#include "../Globals/GameMap.h"
-#include "../Level/LevelManager.h"
-#include "../GameObjects/Player.h"
+#include "../Globals/DeltaTime.h"
 
+#include <iostream>
 #include <SDL2/SDL.h>
 
 RaycastRenderer::RaycastRenderer(SDL_Window* pWindow) : GameRenderer(pWindow)
-{}
+{
+}
 
 RaycastRenderer::~RaycastRenderer()
 {}
 
-void RaycastRenderer::DrawFrame()
+void RaycastRenderer::Init()
 {
-    // Cache reference to current main level
-    std::shared_ptr<Level> mainLevel = LevelManager::instance().GetLevel("main");
+    // Cache reference to game map
+    _mainLevel = LevelManager::instance().GetLevel();
 
     // Cache reference to player
-    std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(mainLevel->GetPlayer());
+    _player = _mainLevel->GetPlayer();
 
+    // Cache reference to map
+    worldMap = _mainLevel->GetMap();
+}
+
+void RaycastRenderer::DrawFrame()
+{
     // Clear the screen
-    SetDrawColor(0, 0, 0, 255);
-    Clear();
+    RenderClear();
 
     // Draw the floor
-    SetDrawColor(0, 0, 255, 255);
-    SDL_Rect floorRect = { 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2 };
-    SDL_RenderFillRect(GetRenderer(), &floorRect);
+    SetDrawColor(0, 0, 0, 255);
+    SDL_RenderFillRect(_pRenderer, &floorRect);
 
     // Draw the ceiling
     SetDrawColor(255, 255, 255, 255);
-    SDL_Rect ceilingRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 2 };
-    SDL_RenderFillRect(GetRenderer(), &ceilingRect);
+    SDL_RenderFillRect(_pRenderer, &ceilingRect);
 
     // Draw the walls
-    SetDrawColor(255, 0, 0, 255);
     for (int x = 0; x < SCREEN_WIDTH; x++)
     {
         // Calculate the ray position and direction
         float cameraX = 2 * x / (float)SCREEN_WIDTH - 1; // x-coordinate in camera space
-        float rayDirX = player->GetDirX() + player->GetPlaneX() * cameraX;
-        float rayDirY = player->GetDirY() + player->GetPlaneY() * cameraX;
+        float rayDirX = _player->GetDirX() + _player->GetPlaneX() * cameraX;
+        float rayDirY = _player->GetDirY() + _player->GetPlaneY() * cameraX;
 
         // Which box of the map we're in
-        int mapX = (int)player->GetPosX();
-        int mapY = (int)player->GetPosY();
+        int mapX = (int)_player->GetPosX();
+        int mapY = (int)_player->GetPosY();
 
         // Length of ray from current position to next x or y-side
         float sideDistX;
@@ -67,23 +69,23 @@ void RaycastRenderer::DrawFrame()
         if (rayDirX < 0)
         {
             stepX = -1;
-            sideDistX = (player->GetPosX() - mapX) * deltaDistX;
+            sideDistX = (_player->GetPosX() - mapX) * deltaDistX;
         }
         else
         {
             stepX = 1;
-            sideDistX = (mapX + 1.0f - player->GetPosX()) * deltaDistX;
+            sideDistX = (mapX + 1.0f - _player->GetPosX()) * deltaDistX;
         }
 
         if (rayDirY < 0)
         {
             stepY = -1;
-            sideDistY = (player->GetPosY() - mapY) * deltaDistY;
+            sideDistY = (_player->GetPosY() - mapY) * deltaDistY;
         }
         else
         {
             stepY = 1;
-            sideDistY = (mapY + 1.0f - player->GetPosY()) * deltaDistY;
+            sideDistY = (mapY + 1.0f - _player->GetPosY()) * deltaDistY;
         }
 
         // Perform DDA
@@ -107,17 +109,18 @@ void RaycastRenderer::DrawFrame()
             if (worldMap[mapX][mapY] > 0)
             {
                 hit = 1;
+                //std::cout << "Hit" << std::endl;
             }
         }
 
         // Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
         if (side == 0)
         {
-            perpWallDist = (mapX - player->GetPosX() + (1 - stepX) / 2) / rayDirX;
+            perpWallDist = (mapX - _player->GetPosX() + (1 - stepX) / 2) / rayDirX;
         }
         else
         {
-            perpWallDist = (mapY - player->GetPosY() + (1 - stepY) / 2) / rayDirY;
+            perpWallDist = (mapY - _player->GetPosY() + (1 - stepY) / 2) / rayDirY;
         }
 
         // Calculate height of line to draw on screen
@@ -143,30 +146,30 @@ void RaycastRenderer::DrawFrame()
         {
         case 1:
             SetDrawColor(255, 0, 0, 255);
+            //std::cout << "1" << std::endl;
             break;
 
         case 2:
             SetDrawColor(0,255,0,255);
+            //std::cout << "2" << std::endl;
             break;
 
         case 3:
             SetDrawColor(0,0,255,255);
+            //std::cout << "3" << std::endl;
             break;
 
         case 4:
-            SetDrawColor(255,255,255,255);
+            SetDrawColor(120,120,120,255);
+            //std::cout << "4" << std::endl;
             break;
 
         default:
-            SetDrawColor(255,255,0,255);
+            //std::cout << "Render error" << std::endl;
             break;
         }
 
         // Draw the pixels of the stripe as a vertical line
-        SDL_RenderDrawLine(GetRenderer(), x, drawStart, x, drawEnd);
-
+        SDL_RenderDrawLine(_pRenderer, x, drawStart, x, drawEnd);
     }
-
-    
-
 }

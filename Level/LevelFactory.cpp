@@ -1,6 +1,13 @@
 #include "LevelFactory.h"
 
-Level* LevelFactory::CreateLevel()
+LevelFactory::LevelFactory(token)
+{}
+
+LevelFactory::~LevelFactory()
+{}
+
+std::shared_ptr<Level> LevelFactory::CreateLevel()
 {
-    return new Level();
+    std::shared_ptr<Level> level = std::make_shared<Level>();
+    return level;
 }

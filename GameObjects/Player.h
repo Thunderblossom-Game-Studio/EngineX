@@ -9,6 +9,14 @@ private:
     double _dirX = -1, _dirY = 0; //initial direction vector
     double _planeX = 0, _planeY = 0.66; //the 2d raycaster version of camera plane
 
+    void MoveForward();
+    void MoveBackward();
+    void MoveLeft();
+    void MoveRight();
+
+    void RotateLeft();
+    void RotateRight();
+
 public:
     Player();
     ~Player();

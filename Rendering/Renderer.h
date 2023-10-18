@@ -7,7 +7,7 @@ class SDL_Renderer;
 
 class GameRenderer
 {
-private:
+protected:
     SDL_Renderer* _pRenderer = nullptr;
 
 public:
@@ -15,8 +15,9 @@ public:
     ~GameRenderer();
 
     void SetDrawColor(int r, int g, int b, int a);
-    void Clear();
+    void RenderClear();
     void Present();
-    SDL_Renderer* GetRenderer() const { return _pRenderer; }
+    SDL_Renderer* GetRenderer() { return _pRenderer; }
     virtual void DrawFrame() {};
+    virtual void Init() {};
 };

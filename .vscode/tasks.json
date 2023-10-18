@@ -44,7 +44,10 @@
                 "Rendering/RaycastRenderer.cpp",
                 "Core/Game.cpp",
                 "Core/InputManager.cpp",
-                "GameObjects/ExampleGameObject.cpp",
+                "GameObjects/Player.cpp",
+                "Level/Level.cpp",
+                "Level/LevelManager.cpp",
+                "Level/LevelFactory.cpp",
                 "main.cpp", 
                 "-lSDL2"
             ],

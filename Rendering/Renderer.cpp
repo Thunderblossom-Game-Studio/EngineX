@@ -25,7 +25,7 @@ void GameRenderer::SetDrawColor(int r, int g, int b, int a)
     SDL_SetRenderDrawColor(_pRenderer, r, g, b, a);
 }
 
-void GameRenderer::Clear()
+void GameRenderer::RenderClear()
 {
     SDL_RenderClear(_pRenderer);
 }

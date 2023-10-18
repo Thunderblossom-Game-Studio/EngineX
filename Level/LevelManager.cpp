@@ -1,20 +1,16 @@
 #include "LevelManager.h"
 
-LevelManager::LevelManager(token) {}
-
-LevelManager::~LevelManager() {}
-
-std::shared_ptr<Level> LevelManager::GetLevel(const char* levelName)
+std::shared_ptr<Level> LevelManager::GetLevel()
 {
-    return _levels[levelName];
+    return _level;
 }
 
-void LevelManager::AddLevel(const char* levelName, std::shared_ptr<Level> level)
+void LevelManager::LoadLevel(std::shared_ptr<Level> level)
 {
-    _levels.at(levelName) = level;
+    _level = level;
 }
 
 void LevelManager::RemoveLevel(const char* levelName)
 {
-    _levels.erase(levelName);
+    _level = nullptr;
 }

@@ -10,4 +10,5 @@ private:
 
 public:
     static float GetDeltaTime();
+    static void UpdateDeltaTime();
 };

@@ -4,6 +4,9 @@
 #include "../Rendering/GameWindow.h"
 #include "../Rendering/RenderInstanceManager.h"
 #include "InputManager.h"
+#include "../Level/LevelManager.h"
+#include "../Level/LevelFactory.h"
+#include "../Globals/DeltaTime.h"
 
 Game::Game(token)
 {
@@ -33,12 +36,13 @@ bool Game::Init()
         return false;
     }
 
-    ret = RenderInstanceManager::instance().AddRenderer("main");
+    ret = RenderInstanceManager::instance().AddRaycastRenderer("main");
     if (!ret)
     {
         std::cout << "GameRenderer::Init failed" << std::endl;
         return false;
     }
+
 
     ret = InputManager::instance().Init();
     if (!ret)
@@ -47,12 +51,17 @@ bool Game::Init()
         return false;
     }
 
+    LevelManager::instance().LoadLevel(LevelFactory::instance().CreateLevel());
+    RenderInstanceManager::instance().GetRenderer("main")->Init();
+
     _running = true;
     return true;
 }
 
 void Game::Update()
 {
+    DeltaTime::UpdateDeltaTime();
+
     // SDL Event handling loop
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -71,8 +80,8 @@ void Game::Update()
     // Updates input state and performs any bound callbacks
     InputManager::instance().Update();
 
-    // Placeholder render loop
-    RenderInstanceManager::instance().GetRenderer("main")->Clear();
-    RenderInstanceManager::instance().GetRenderer("main")->SetDrawColor(0, 255, 0, 255);
+    RenderInstanceManager::instance().GetRenderer("main")->DrawFrame();
     RenderInstanceManager::instance().GetRenderer("main")->Present();
+
+    std::cout << "Delta time: " << DeltaTime::GetDeltaTime() << std::endl;
 }
