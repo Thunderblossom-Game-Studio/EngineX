@@ -36,13 +36,13 @@ bool Game::Init()
         return false;
     }
 
-    ret = RenderInstanceManager::instance().AddRaycastRenderer("main");
-    if (!ret)
+    if (!RenderInstanceManager::instance().AddRaycastRenderer())
     {
         std::cout << "GameRenderer::Init failed" << std::endl;
         return false;
     }
 
+    RenderInstanceManager::instance().GetRenderer(0)->Init();
 
     ret = InputManager::instance().Init();
     if (!ret)
@@ -52,7 +52,8 @@ bool Game::Init()
     }
 
     LevelManager::instance().LoadLevel(LevelFactory::instance().CreateLevel());
-    RenderInstanceManager::instance().GetRenderer("main")->Init();
+
+    LevelManager::instance().GetLevel()->GetPlayer()->Init();
 
     _running = true;
     return true;
@@ -68,6 +69,13 @@ void Game::Update()
     {
         switch(event.type)
         {
+            case SDL_KEYDOWN:
+                // Quit game on esc
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    _running = false;
+                }
+                break;
             case SDL_QUIT:
                 _running = false;
                 break;
@@ -77,11 +85,22 @@ void Game::Update()
         }
     }
 
+    // Update level
+    LevelManager::instance().UpdateLevel();
+
     // Updates input state and performs any bound callbacks
     InputManager::instance().Update();
 
-    RenderInstanceManager::instance().GetRenderer("main")->DrawFrame();
-    RenderInstanceManager::instance().GetRenderer("main")->Present();
+    RenderInstanceManager::instance().GetRenderer(0)->DrawFrame();
+    RenderInstanceManager::instance().GetRenderer(0)->Present();
 
-    std::cout << "Delta time: " << DeltaTime::GetDeltaTime() << std::endl;
+    // Calculate average fps over past 10 seconds
+    _frameCount++;
+    _frameTime += DeltaTime::GetDeltaTime();
+    if (_frameTime >= 10.f)
+    {
+        std::cout << "Average FPS: " << _frameCount / _frameTime << std::endl;
+        _frameCount = 0;
+        _frameTime = 0.f;
+    }
 }

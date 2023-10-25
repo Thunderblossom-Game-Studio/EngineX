@@ -9,4 +9,5 @@ protected:
 
 public:
     virtual ~BaseGameObject() = default;
+    virtual void Update() = 0;
 };

@@ -16,35 +16,22 @@ RenderInstanceManager::~RenderInstanceManager()
     ClearRenderers();
 }
 
-GameRenderer* RenderInstanceManager::AddRenderer(const char* id)
+std::shared_ptr<GameRenderer> RenderInstanceManager::AddRenderer()
 {
-    if (_renderers.find(id) == _renderers.end())
-    {
-        _renderers[id] = std::unique_ptr<GameRenderer>(new GameRenderer(GameWindow::instance().GetWindow()));
-        std::cout << "Renderer created" << std::endl;
-    }
-
-    return _renderers.at(id).get();
+    std::cout << "Default Renderer addition not implemented" << std::endl;
+    return nullptr;
 }
 
-RaycastRenderer* RenderInstanceManager::AddRaycastRenderer(const char* id)
+std::shared_ptr<RaycastRenderer> RenderInstanceManager::AddRaycastRenderer()
 {
-    if (_renderers.find(id) == _renderers.end())
-    {
-        _renderers[id] = std::unique_ptr<RaycastRenderer>(new RaycastRenderer(GameWindow::instance().GetWindow()));
-        std::cout << "Renderer " << id << " created" << std::endl;
-    }
+    _renderers.push_back(std::make_shared<RaycastRenderer>(GameWindow::instance().GetWindow(), "main"));
 
-    return static_cast<RaycastRenderer*>(_renderers.at(id).get());
+    return std::dynamic_pointer_cast<RaycastRenderer>(_renderers.back());
 }
 
-void RenderInstanceManager::RemoveRenderer(const char* id)
+void RenderInstanceManager::RemoveRenderer()
 {
-    if (_renderers.find(id) != _renderers.end())
-    {
-        _renderers.erase(id);
-        std::cout << "Renderer " << id << " destroyed" << std::endl;
-    }
+    std::cout << "Render removal not implemented" << std::endl;
 }
 
 void RenderInstanceManager::ClearRenderers()
@@ -53,12 +40,11 @@ void RenderInstanceManager::ClearRenderers()
     std::cout << "Destroyed all renderers" << std::endl;
 }
 
-GameRenderer* RenderInstanceManager::GetRenderer(const char* id)
+std::shared_ptr<GameRenderer> RenderInstanceManager::GetRenderer(int index)
 {
-    if (_renderers.find(id) != _renderers.end())
-    {
-        return _renderers.at(id).get();
-    }
+    if(index < _renderers.size())
+        return _renderers[index];
+
     std::cout << "Renderer not found" << std::endl;
     return nullptr;
 }

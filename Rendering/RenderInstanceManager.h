@@ -10,32 +10,20 @@
 class RenderInstanceManager final : public Singleton<RenderInstanceManager>
 {
 private:
-    /// @brief Map of renderer ids to renderer instances
-    std::map<const char*, std::unique_ptr<GameRenderer>> _renderers;
+    //std::map<const char*, std::shared_ptr<GameRenderer>> _renderers;
+    std::vector<std::shared_ptr<GameRenderer>> _renderers;
 
 public:
     RenderInstanceManager(token);
     ~RenderInstanceManager();
 
-    /// @brief Creates a new renderer with the given id
-    /// @param id
-    /// @return GameRenderer*
-    GameRenderer* AddRenderer(const char* id);
+    std::shared_ptr<GameRenderer> AddRenderer();
 
-    /// @brief Creates a new raycast renderer with the given id
-    /// @param id 
-    /// @return RaycastRenderer*
-    RaycastRenderer* AddRaycastRenderer(const char* id);
+    std::shared_ptr<RaycastRenderer> AddRaycastRenderer();
 
-    /// @brief Removes the renderer with the given id
-    /// @param id 
-    void RemoveRenderer(const char* id);
+    void RemoveRenderer();
 
-    /// @brief Removes all renderers
     void ClearRenderers();
 
-    /// @brief Returns the renderer with the given id
-    /// @param id 
-    /// @return GameRenderer*
-    GameRenderer* GetRenderer(const char* id);
+    std::shared_ptr<GameRenderer> GetRenderer(int index);
 };

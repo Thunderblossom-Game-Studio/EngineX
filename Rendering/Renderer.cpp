@@ -4,14 +4,17 @@
 #include <SDL2/SDL.h> // SDL_CreateRenderer, SDL_DestroyRenderer, SDL_RENDERER_ACCELERATED, SDL_RENDERER_PRESENTVSYNC
 #include "GameWindow.h" // Game::GetWindow
 
-GameRenderer::GameRenderer(SDL_Window* pWindow)
+GameRenderer::GameRenderer(SDL_Window* pWindow, const char* id)
+    : _id(id)
 {
-    _pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    _pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
     if (_pRenderer == nullptr)
     {
         std::cout << "SDL_CreateRenderer failed: " << SDL_GetError() << std::endl;
     }
     std::cout << "Game renderer created" << std::endl;
+
+    _pCamera = new Camera(FVector2(1.f,1.f), FVector2(1.f,1.f), FVector2(1.f,1.f));
 }
 
 GameRenderer::~GameRenderer()
@@ -33,4 +36,17 @@ void GameRenderer::RenderClear()
 void GameRenderer::Present()
 {
     SDL_RenderPresent(_pRenderer);
+}
+
+Camera* GameRenderer::GetCamera()
+{
+    std::cout << _id << std::endl;
+
+    if(_pCamera)
+        return _pCamera;
+    else
+    {
+        std::cout << "Camera not found" << std::endl;
+        return nullptr;
+    }
 }

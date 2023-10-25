@@ -14,3 +14,8 @@ void LevelManager::RemoveLevel(const char* levelName)
 {
     _level = nullptr;
 }
+
+void LevelManager::UpdateLevel()
+{
+    _level->Update();
+}

@@ -5,27 +5,14 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-RaycastRenderer::RaycastRenderer(SDL_Window* pWindow) : GameRenderer(pWindow)
-{
-}
+RaycastRenderer::RaycastRenderer(SDL_Window *pWindow, const char *id)
+        : GameRenderer(pWindow, id) {}
 
-RaycastRenderer::~RaycastRenderer()
-{}
+RaycastRenderer::~RaycastRenderer() = default;
 
-void RaycastRenderer::Init()
-{
-    // Cache reference to game map
-    _mainLevel = LevelManager::instance().GetLevel();
+void RaycastRenderer::Init() {}
 
-    // Cache reference to player
-    _player = _mainLevel->GetPlayer();
-
-    // Cache reference to map
-    worldMap = _mainLevel->GetMap();
-}
-
-void RaycastRenderer::DrawFrame()
-{
+void RaycastRenderer::DrawFrame() {
     // Clear the screen
     RenderClear();
 
@@ -37,26 +24,30 @@ void RaycastRenderer::DrawFrame()
     SetDrawColor(255, 255, 255, 255);
     SDL_RenderFillRect(_pRenderer, &ceilingRect);
 
+    // Store the values of the camera
+    FVector2 cameraPos = _pCamera->GetPosition();
+    FVector2 cameraDir = _pCamera->GetDirection();
+    FVector2 cameraPlane = _pCamera->GetPlane();
+
+    // Store the world map
+    _worldMap = LevelManager::instance().GetLevel()->GetMap();
+
     // Draw the walls
-    for (int x = 0; x < SCREEN_WIDTH; x++)
-    {
-        // Calculate the ray position and direction
-        float cameraX = 2 * x / (float)SCREEN_WIDTH - 1; // x-coordinate in camera space
-        float rayDirX = _player->GetDirX() + _player->GetPlaneX() * cameraX;
-        float rayDirY = _player->GetDirY() + _player->GetPlaneY() * cameraX;
+    for (int x = 0; x < SCREEN_WIDTH; x++) {
+        // Calculate ray pos and direction
+        float cameraX = 2 * x / (double) SCREEN_WIDTH - 1; // x-coordinate in camera space
+        FVector2 rayDir = FVector2(cameraDir.X + cameraPlane.X * cameraX, cameraDir.Y + cameraPlane.Y * cameraX);
 
         // Which box of the map we're in
-        int mapX = (int)_player->GetPosX();
-        int mapY = (int)_player->GetPosY();
+        int mapX = (int) cameraPos.X;
+        int mapY = (int) cameraPos.Y;
 
         // Length of ray from current position to next x or y-side
-        float sideDistX;
-        float sideDistY;
+        FVector2 sideDist;
 
         // Length of ray from one x or y-side to next x or y-side
-        float deltaDistX = std::abs(1 / rayDirX);
-        float deltaDistY = std::abs(1 / rayDirY);
-        float perpWallDist;
+        FVector2 deltaDist = FVector2(std::abs(1 / rayDir.X), std::abs(1 / rayDir.Y));
+        double perpWallDist;
 
         // What direction to step in x or y-direction (either +1 or -1)
         int stepX;
@@ -66,110 +57,80 @@ void RaycastRenderer::DrawFrame()
         int side; // Was a NS or a EW wall hit?
 
         // Calculate step and initial sideDist
-        if (rayDirX < 0)
-        {
+        if (rayDir.X < 0) {
             stepX = -1;
-            sideDistX = (_player->GetPosX() - mapX) * deltaDistX;
-        }
-        else
-        {
+            sideDist.X = (cameraPos.X - mapX) * deltaDist.X;
+        } else {
             stepX = 1;
-            sideDistX = (mapX + 1.0f - _player->GetPosX()) * deltaDistX;
+            sideDist.X = (mapX + 1.0 - cameraPos.X) * deltaDist.X;
         }
 
-        if (rayDirY < 0)
-        {
+        if (rayDir.Y < 0) {
             stepY = -1;
-            sideDistY = (_player->GetPosY() - mapY) * deltaDistY;
-        }
-        else
-        {
+            sideDist.Y = (cameraPos.Y - mapY) * deltaDist.Y;
+        } else {
             stepY = 1;
-            sideDistY = (mapY + 1.0f - _player->GetPosY()) * deltaDistY;
+            sideDist.Y = (mapY + 1.0 - cameraPos.Y) * deltaDist.Y;
         }
 
         // Perform DDA
-        while (hit == 0)
-        {
+        while (hit == 0) {
             // Jump to next map square, OR in x-direction, OR in y-direction
-            if (sideDistX < sideDistY)
-            {
-                sideDistX += deltaDistX;
+            if (sideDist.X < sideDist.Y) {
+                sideDist.X += deltaDist.X;
                 mapX += stepX;
                 side = 0;
-            }
-            else
-            {
-                sideDistY += deltaDistY;
+            } else {
+                sideDist.Y += deltaDist.Y;
                 mapY += stepY;
                 side = 1;
             }
 
             // Check if ray has hit a wall
-            if (worldMap[mapX][mapY] > 0)
-            {
+            if (_worldMap[mapX][mapY])
                 hit = 1;
-                //std::cout << "Hit" << std::endl;
-            }
         }
 
         // Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
         if (side == 0)
-        {
-            perpWallDist = (mapX - _player->GetPosX() + (1 - stepX) / 2) / rayDirX;
-        }
+            perpWallDist = (mapX - cameraPos.X + (1 - stepX) / 2) / rayDir.X;
         else
-        {
-            perpWallDist = (mapY - _player->GetPosY() + (1 - stepY) / 2) / rayDirY;
-        }
+            perpWallDist = (mapY - cameraPos.Y + (1 - stepY) / 2) / rayDir.Y;
 
         // Calculate height of line to draw on screen
-        int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+        int lineHeight = (int) (SCREEN_HEIGHT / perpWallDist);
 
         // Calculate lowest and highest pixel to fill in current stripe
         int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
-
         if (drawStart < 0)
-        {
             drawStart = 0;
-        }
 
         int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
-
         if (drawEnd >= SCREEN_HEIGHT)
-        {
             drawEnd = SCREEN_HEIGHT - 1;
-        }
 
         // Choose wall color
-        switch (worldMap[mapX][mapY])
-        {
-        case 1:
-            SetDrawColor(255, 0, 0, 255);
-            //std::cout << "1" << std::endl;
-            break;
-
-        case 2:
-            SetDrawColor(0,255,0,255);
-            //std::cout << "2" << std::endl;
-            break;
-
-        case 3:
-            SetDrawColor(0,0,255,255);
-            //std::cout << "3" << std::endl;
-            break;
-
-        case 4:
-            SetDrawColor(120,120,120,255);
-            //std::cout << "4" << std::endl;
-            break;
-
-        default:
-            //std::cout << "Render error" << std::endl;
-            break;
+        switch (_worldMap[mapX][mapY]->GetColour()) {
+            case 1:
+                SetDrawColor(255, 0, 0, 255);
+                break;
+            case 2:
+                SetDrawColor(0, 255, 0, 255);
+                break;
+            case 3:
+                SetDrawColor(0, 0, 255, 255);
+                break;
+            case 4:
+                SetDrawColor(125, 125, 125, 255);
+                break;
+            default:
+                SetDrawColor(0, 0, 0, 0);
+                break;
         }
 
         // Draw the pixels of the stripe as a vertical line
         SDL_RenderDrawLine(_pRenderer, x, drawStart, x, drawEnd);
+
+
     }
 }

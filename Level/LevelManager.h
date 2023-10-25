@@ -22,4 +22,6 @@ public:
 
     void RemoveLevel(const char* levelName);
 
+    void UpdateLevel();
+
 };
