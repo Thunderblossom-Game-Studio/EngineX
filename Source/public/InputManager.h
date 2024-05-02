@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Templates/Singleton.h"
+#include "Singleton.h"
 #include <map>
 #include <functional>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class InputManager : public Singleton<InputManager> {
 private:

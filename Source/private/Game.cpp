@@ -1,12 +1,12 @@
-#include "Game.h"
+#include "../public/Game.h"
 #include <iostream> // std::cout, std::endl
-#include <SDL2/SDL.h> // SDL_Init, SDL_Quit
-#include "../Rendering/GameWindow.h"
-#include "../Rendering/RenderInstanceManager.h"
-#include "InputManager.h"
-#include "../Level/LevelManager.h"
-#include "../Level/LevelFactory.h"
-#include "../Globals/DeltaTime.h"
+#include <../SDL2/SDL.h> // SDL_Init, SDL_Quit
+#include "../public/GameWindow.h"
+#include "../public/RenderInstanceManager.h"
+#include "../public/InputManager.h"
+#include "../public/LevelManager.h"
+#include "../public/LevelFactory.h"
+#include "../public/DeltaTime.h"
 
 Game::Game(token)
 {

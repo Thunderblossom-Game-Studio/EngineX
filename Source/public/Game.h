@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Templates/Singleton.h"
+#include "Singleton.h"
 
 class GameRenderer;
 

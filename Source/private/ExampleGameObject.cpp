@@ -1,7 +1,7 @@
-#include "ExampleGameObject.h"
+#include "../public/ExampleGameObject.h"
 #include <iostream>
 
-#include "../Core/InputManager.h"
+#include "../public/InputManager.h"
 
 ExampleGameObject::ExampleGameObject(float x, float y, float width, float height) : _width(width), _height(height)
 {

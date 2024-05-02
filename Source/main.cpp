@@ -1,4 +1,4 @@
-#include "Core/Game.h"
+#include "public/Game.h"
 #include <iostream>
 
 int main(int argc, char** argv)

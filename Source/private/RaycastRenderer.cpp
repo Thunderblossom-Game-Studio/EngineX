@@ -1,9 +1,9 @@
 #include "RaycastRenderer.h"
-#include "../Globals/Config.h"
-#include "../Globals/DeltaTime.h"
+#include "Config.h"
+#include "DeltaTime.h"
 
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 RaycastRenderer::RaycastRenderer(SDL_Window *pWindow, const char *id)
         : GameRenderer(pWindow, id) {}
@@ -25,9 +25,9 @@ void RaycastRenderer::DrawFrame() {
     SDL_RenderFillRect(_pRenderer, &ceilingRect);
 
     // Store the values of the camera
-    FVector2 cameraPos = _pCamera->GetPosition();
-    FVector2 cameraDir = _pCamera->GetDirection();
-    FVector2 cameraPlane = _pCamera->GetPlane();
+    Vector2 cameraPos = _pCamera->GetPosition();
+    Vector2 cameraDir = _pCamera->GetDirection();
+    Vector2 cameraPlane = _pCamera->GetPlane();
 
     // Store the world map
     _worldMap = LevelManager::instance().GetLevel()->GetMap();
@@ -36,20 +36,20 @@ void RaycastRenderer::DrawFrame() {
     for (int x = 0; x < SCREEN_WIDTH; x++) {
         // Calculate ray pos and direction
         float cameraX = 2 * x / (double) SCREEN_WIDTH - 1; // x-coordinate in camera space
-        FVector2 rayDir = FVector2(cameraDir.X + cameraPlane.X * cameraX, cameraDir.Y + cameraPlane.Y * cameraX);
+        Vector2 rayDir = Vector2(cameraDir.X + cameraPlane.X * cameraX, cameraDir.Y + cameraPlane.Y * cameraX);
 
         // Which box of the map we're in
         int mapX = (int) cameraPos.X;
         int mapY = (int) cameraPos.Y;
 
-        // Length of ray from current position to next x or y-side
-        FVector2 sideDist;
+        // Length of ray from current position to next x or Y-side
+        Vector2 sideDist;
 
-        // Length of ray from one x or y-side to next x or y-side
-        FVector2 deltaDist = FVector2(std::abs(1 / rayDir.X), std::abs(1 / rayDir.Y));
+        // Length of ray from one x or Y-side to next x or Y-side
+        Vector2 deltaDist = Vector2(std::abs(1 / rayDir.X), std::abs(1 / rayDir.Y));
         double perpWallDist;
 
-        // What direction to step in x or y-direction (either +1 or -1)
+        // What direction to step in x or Y-direction (either +1 or -1)
         int stepX;
         int stepY;
 
@@ -75,7 +75,7 @@ void RaycastRenderer::DrawFrame() {
 
         // Perform DDA
         while (hit == 0) {
-            // Jump to next map square, OR in x-direction, OR in y-direction
+            // Jump to next map square, OR in x-direction, OR in Y-direction
             if (sideDist.X < sideDist.Y) {
                 sideDist.X += deltaDist.X;
                 mapX += stepX;

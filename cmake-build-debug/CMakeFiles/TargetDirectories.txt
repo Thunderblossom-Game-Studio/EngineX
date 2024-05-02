@@ -1,0 +1,3 @@
+C:/Users/prodi/Documents/SDL2-Raycast-Renderer/cmake-build-debug/CMakeFiles/RaycastRenderer.dir
+C:/Users/prodi/Documents/SDL2-Raycast-Renderer/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/prodi/Documents/SDL2-Raycast-Renderer/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Templates/Singleton.h"
+#include "Singleton.h"
 #include "Level.h"
 
 class LevelFactory : public Singleton<LevelFactory>

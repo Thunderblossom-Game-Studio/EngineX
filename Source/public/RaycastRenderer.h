@@ -2,10 +2,10 @@
 
 #include "Renderer.h"
 
-#include <SDL2/SDL.h>
-#include "../Level/LevelManager.h"
-#include "../GameObjects/Player.h"
-#include "../Globals/Config.h"
+#include <SDL.h>
+#include "LevelManager.h"
+#include "Player.h"
+#include "Config.h"
 
 class RaycastRenderer : public GameRenderer
 {

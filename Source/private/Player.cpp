@@ -1,7 +1,7 @@
 #include "Player.h"
-#include "../Globals/DeltaTime.h"
-#include "../Core/InputManager.h"
-#include "../Rendering/RenderInstanceManager.h"
+#include "DeltaTime.h"
+#include "InputManager.h"
+#include "RenderInstanceManager.h"
 #include <cmath>
 
 Player::Player()

@@ -3,7 +3,7 @@
 #include <memory>
 #include <map>
 
-#include "../Templates/Singleton.h"
+#include "Singleton.h"
 #include "Level.h"
 
 class LevelManager : public Singleton<LevelManager>

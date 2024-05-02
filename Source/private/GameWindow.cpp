@@ -1,8 +1,8 @@
 #include "GameWindow.h"
 
 #include <iostream> // std::cout, std::endl
-#include <SDL2/SDL.h> // SDL_Window, SDL_CreateWindow, SDL_DestroyWindow
-#include "../Globals/Config.h"
+#include <SDL.h> // SDL_Window, SDL_CreateWindow, SDL_DestroyWindow
+#include "Config.h"
 
 GameWindow::GameWindow(token)
 {

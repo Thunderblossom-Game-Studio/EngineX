@@ -618,11 +618,11 @@ extern DECLSPEC int SDLCALL SDL_vasprintf(char **strp, const char *fmt, va_list 
 /**
  * Use this function to compute arc cosine of `x`.
  *
- * The definition of `y = acos(x)` is `x = cos(y)`.
+ * The definition of `Y = acos(x)` is `x = cos(Y)`.
  *
  * Domain: `-1 <= x <= 1`
  *
- * Range: `0 <= y <= Pi`
+ * Range: `0 <= Y <= Pi`
  *
  * \param x floating point value, in radians.
  * \returns arc cosine of `x`.

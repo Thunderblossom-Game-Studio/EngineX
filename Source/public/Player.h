@@ -2,19 +2,19 @@
 
 #include "BaseGameObject.h"
 #include "Camera.h"
-#include "../Core/FVector2.h"
+#include "Vector2.h"
 
 class Player : public BaseGameObject
 {
 private:
-    //double _posX = 22, _posY = 12;  //x and y start position
+    //double _posX = 22, _posY = 12;  //x and Y start position
     //double _dirX = -1, _dirY = 0; //initial direction vector
     //double _planeX = 0, _planeY = 0.66; //the 2d raycaster version of camera plane
 
     // pos, dir and plane as FVector2
-    FVector2 _pos = FVector2(22, 12);
-    FVector2 _dir = FVector2(-1, 0);
-    FVector2 _plane = FVector2(0, 0.66);
+    Vector2 _pos = Vector2(22, 12);
+    Vector2 _dir = Vector2(-1, 0);
+    Vector2 _plane = Vector2(0, 0.66);
 
     Camera* _camera;
 

@@ -2,9 +2,9 @@
 #include <vector>
 #include <memory>
 
-#include "../GameObjects/BaseGameObject.h"
-#include "../GameObjects/Wall.h"
-#include "../GameObjects/Player.h"
+#include "BaseGameObject.h"
+#include "Wall.h"
+#include "Player.h"
 
 class Level
 {

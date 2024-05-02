@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Templates/Singleton.h"
-#include "../GameObjects/Camera.h"
+#include "Singleton.h"
+#include "Camera.h"
 
 class SDL_Window;
 class SDL_Renderer;
