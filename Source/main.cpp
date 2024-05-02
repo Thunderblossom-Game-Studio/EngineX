@@ -10,10 +10,9 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    while(running)
+    while(Game::instance().IsRunning())
     {
         Game::instance().Update();
-        running = Game::instance().IsRunning();
     }
 
     return 0;
