@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-class DeltaTime
+class Time
 {
 private:
     static std::chrono::steady_clock::time_point _lastTime;

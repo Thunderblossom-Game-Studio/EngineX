@@ -21,7 +21,6 @@ private:
 
 public:
     RaycastRenderer(SDL_Window* pWindow, const char* id);
-    ~RaycastRenderer();
 
     void Init() override;
 

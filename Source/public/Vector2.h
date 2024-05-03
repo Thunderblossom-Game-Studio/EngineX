@@ -3,26 +3,26 @@
 #include <valarray>
 
 struct Vector2 {
-    float X;
-    float Y;
+    double X;
+    double Y;
 
     Vector2() : X(0), Y(0) {}
-    Vector2(float x, float y) : X(x), Y(y) {}
+    Vector2(double x, double y) : X(x), Y(y) {}
 
     Vector2 operator+(const Vector2& other) const {
-        return Vector2(X + other.X, Y + other.Y);
+        return {X + other.X, Y + other.Y};
     }
 
     Vector2 operator-(const Vector2& other) const {
-        return Vector2(X - other.X, Y - other.Y);
+        return {X - other.X, Y - other.Y};
     }
 
-    Vector2 operator*(float scalar) const {
-        return Vector2(X * scalar, Y * scalar);
+    Vector2 operator*(double scalar) const {
+        return {X * scalar, Y * scalar};
     }
 
-    Vector2 operator/(float scalar) const {
-        return Vector2(X / scalar, Y / scalar);
+    Vector2 operator/(double scalar) const {
+        return {X / scalar, Y / scalar};
     }
 
     Vector2& operator+=(const Vector2& other) {
@@ -37,13 +37,13 @@ struct Vector2 {
         return *this;
     }
 
-    Vector2& operator*=(float scalar) {
+    Vector2& operator*=(double scalar) {
         X *= scalar;
         Y *= scalar;
         return *this;
     }
 
-    Vector2& operator/=(float scalar) {
+    Vector2& operator/=(double scalar) {
         X /= scalar;
         Y /= scalar;
         return *this;
@@ -57,7 +57,7 @@ struct Vector2 {
         return X != other.X || Y != other.Y;
     }
 
-    float Magnitude() const {
+    double Magnitude() const {
         return sqrt(X * X + Y * Y);
     }
 
@@ -65,23 +65,23 @@ struct Vector2 {
         return *this / Magnitude();
     }
 
-    float Dot(const Vector2& other) const {
+    double Dot(const Vector2& other) const {
         return X * other.X + Y * other.Y;
     }
 
-    float Cross(const Vector2& other) const {
+    double Cross(const Vector2& other) const {
         return X * other.Y - Y * other.X;
     }
 
-    float Distance(const Vector2& other) const {
+    double Distance(const Vector2& other) const {
         return (*this - other).Magnitude();
     }
 
-    float Angle(const Vector2& other) const {
+    double Angle(const Vector2& other) const {
         return atan2(Cross(other), Dot(other));
     }
 
-    Vector2 Rotate(float angle) const {
+    Vector2 Rotate(double angle) const {
         return Vector2(X * cos(angle) - Y * sin(angle), X * sin(angle) + Y * cos(angle));
     }
 };

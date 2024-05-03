@@ -1,8 +1,10 @@
-#include "public/Game.h"
+#include "Game.h"
 #include <iostream>
 
 int main(int argc, char** argv)
 {
+    std::cout << "Running main" << std::endl;
+
     bool running = Game::instance().Init();
     if(!running)
     {

@@ -8,8 +8,6 @@
 RaycastRenderer::RaycastRenderer(SDL_Window *pWindow, const char *id)
         : GameRenderer(pWindow, id) {}
 
-RaycastRenderer::~RaycastRenderer() = default;
-
 void RaycastRenderer::Init() {}
 
 void RaycastRenderer::DrawFrame() {
@@ -35,7 +33,7 @@ void RaycastRenderer::DrawFrame() {
     // Draw the walls
     for (int x = 0; x < SCREEN_WIDTH; x++) {
         // Calculate ray pos and direction
-        float cameraX = 2 * x / (double) SCREEN_WIDTH - 1; // x-coordinate in camera space
+        double cameraX = 2 * x / (double) SCREEN_WIDTH - 1; // x-coordinate in camera space
         Vector2 rayDir = Vector2(cameraDir.X + cameraPlane.X * cameraX, cameraDir.Y + cameraPlane.Y * cameraX);
 
         // Which box of the map we're in

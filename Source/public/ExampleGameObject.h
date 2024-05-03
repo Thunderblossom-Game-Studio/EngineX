@@ -4,14 +4,16 @@
 #include "IRenderableObject.h"
 #include "ICollidableObject.h"
 
-class ExampleGameObject final : public BaseGameObject, public IRenderableObject, public ICollidableObject
+class ExampleGameObject final : public BaseGameObject
 {
 private:
     float _width = 0;
     float _height = 0;
 
+    void Update() override;
+
 public:
-    ExampleGameObject(float x, float y, float width, float height);
+    ExampleGameObject(Vector2 position, Vector2 direction, float width, float height);
     ~ExampleGameObject();
 
     void SomeExampleKeybind();

@@ -3,9 +3,7 @@ project(RaycastRenderer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(Source/public
-    SDL2
-)
+include_directories(Source/public SDL2)
 
 # Must set the path to the main.cpp, for example: scripts/main.cpp if it is inside a folder
 add_executable(${PROJECT_NAME} Source/main.cpp
@@ -32,6 +30,8 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/Wall.h
         Source/public/Vector2.h
         Source/public/Camera.h
+        Source/public/Component.h
+        Source/public/HealthComponent.h
 
         Source/private/AssetManager.cpp
         Source/private/DeltaTime.cpp
@@ -49,6 +49,10 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/private/Vector2.cpp
         Source/private/Camera.cpp
         Source/private/Wall.cpp
+        Source/private/Component.cpp
+        Source/private/BaseGameObject.cpp
+        Source/private/HealthComponent.cpp
+
 )
 
 # --- SDL2 SETUP ---

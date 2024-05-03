@@ -53,7 +53,7 @@ bool Game::Init()
 
     LevelManager::instance().LoadLevel(LevelFactory::instance().CreateLevel());
 
-    LevelManager::instance().GetLevel()->GetPlayer()->Init();
+    LevelManager::instance().GetLevel()->GetPlayer()->Start();
 
     _running = true;
     return true;
@@ -61,7 +61,7 @@ bool Game::Init()
 
 void Game::Update()
 {
-    DeltaTime::UpdateDeltaTime();
+    Time::UpdateDeltaTime();
 
     // SDL Event handling loop
     SDL_Event event;
@@ -96,7 +96,7 @@ void Game::Update()
 
     // Calculate average fps over past 10 seconds
     _frameCount++;
-    _frameTime += DeltaTime::GetDeltaTime();
+    _frameTime += Time::GetDeltaTime();
     if (_frameTime >= 10.f)
     {
         std::cout << "Average FPS: " << _frameCount / _frameTime << std::endl;
