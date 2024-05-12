@@ -1,6 +1,9 @@
 #pragma once
-#include <SDL.h>
 #include <vector>
+#include <memory>
+
+class SDL_Texture;
+class SDL_Renderer;
 
 class TextureManager
 {

@@ -4,10 +4,11 @@
 #include "Level.h"
 
 class LevelFactory : public Singleton<LevelFactory>
-{  
-public:
-    LevelFactory(token);
-    ~LevelFactory();
+{
+private:
+    LevelFactory() = default;
 
-    std::shared_ptr<Level> CreateLevel();
+public:
+    static std::unique_ptr<Level> CreateLevel();
+
 };

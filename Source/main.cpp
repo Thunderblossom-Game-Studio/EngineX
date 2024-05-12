@@ -1,20 +1,20 @@
-#include "Game.h"
+#include "GameEngine.h"
 #include <iostream>
 
 int main(int argc, char** argv)
 {
     std::cout << "Running main" << std::endl;
+    GameEngine game;
 
-    bool running = Game::instance().Init();
-    if(!running)
+    if(!game.IsRunning())
     {
         std::cout << "Game::Init failed" << std::endl;
         return -1;
     }
 
-    while(Game::instance().IsRunning())
+    while(game.IsRunning())
     {
-        Game::instance().Update();
+        game.Update();
     }
 
     return 0;

@@ -8,7 +8,7 @@ Component::Component(BaseGameObject *owner, bool bShouldTick)
 
 void Component::FixedUpdate()
 {
-    // Skip update if component is disabled
+    // Skip update if component is disabled or shouldn't tick
     if(!_bIsEnabled || !_bShouldTick)
     {
         return;
@@ -17,7 +17,7 @@ void Component::FixedUpdate()
 
 void Component::Update()
 {
-    // Skip update if component is disabled
+    // Skip update if component is disabled or shouldn't tick
     if(!_bIsEnabled || !_bShouldTick)
     {
         return;
@@ -26,7 +26,7 @@ void Component::Update()
 
 void Component::LateUpdate()
 {
-    // Skip update if component is disabled
+    // Skip update if component is disabled or shouldn't tick
     if(!_bIsEnabled || !_bShouldTick)
     {
         return;

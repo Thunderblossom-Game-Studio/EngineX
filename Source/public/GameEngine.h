@@ -1,10 +1,6 @@
 #pragma once
 
-#include "Singleton.h"
-
-class GameRenderer;
-
-class Game final : public Singleton<Game>
+class GameEngine
 {
 private:
     bool _running = false;
@@ -12,10 +8,8 @@ private:
     float _frameTime = 0.f;
 
 public:
-    Game(token);
-    ~Game();
+    GameEngine();
 
-    bool Init();
     void Update();
     bool IsRunning() const { return _running; }
 };

@@ -20,8 +20,6 @@ Player::Player()
     InputManager::instance().BindKey(SDL_SCANCODE_RIGHT, InputManager::KeypressType::KEYHELD, [this] { RotateRight(); });
 
     _camera = RenderInstanceManager::instance().GetRenderer(0)->GetCamera();
-
-    AddComponent<HealthComponent>(this);
 }
 
 void Player::MoveForward()
@@ -74,8 +72,12 @@ void Player::RotateRight()
     _plane.Y = oldPlaneX * sin(-rotSpeed) + _plane.Y * cos(-rotSpeed);
 }
 
-void Player::Start()
+void Player::BeginPlay()
 {
+    BaseGameObject::BeginPlay();
+
+    // Add Health Component
+    AddComponent<HealthComponent>(this);
 }
 
 void Player::FixedUpdate()

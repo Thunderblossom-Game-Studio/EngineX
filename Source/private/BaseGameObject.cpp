@@ -2,6 +2,8 @@
 #include "DeltaTime.h"
 #include "Config.h"
 
+std::vector<std::weak_ptr<BaseGameObject>> BaseGameObject::_gameObjects;
+
 void BaseGameObject::FixedUpdate()
 {
     // Handle Component Fixed Updates
@@ -14,11 +16,11 @@ void BaseGameObject::FixedUpdate()
 void BaseGameObject::Update()
 {
     // Handle fixed update
-    _FixedUpdateTimer += Time::GetDeltaTime();
-    if (_FixedUpdateTimer >= PHYSICS_TIMESTEP)
+    _fixedUpdateTimer += Time::GetDeltaTime();
+    if (_fixedUpdateTimer >= FIXED_UPDATE_RATE)
     {
         FixedUpdate();
-        _FixedUpdateTimer = 0.0f;
+        _fixedUpdateTimer = 0.0f;
     }
 
     // Handle Component Updates
@@ -36,3 +38,12 @@ void BaseGameObject::LateUpdate()
         component->LateUpdate();
     }
 }
+
+BaseGameObject::BaseGameObject(Vector2 position, Vector2 direction)
+{
+    _pos = position;
+    _dir = direction;
+
+    _fixedUpdateTimer = 0.f;
+}
+

@@ -1,4 +1,4 @@
-#include "../public/Game.h"
+#include "../public/GameEngine.h"
 #include <iostream> // std::cout, std::endl
 #include <../SDL2/SDL.h> // SDL_Init, SDL_Quit
 #include "../public/GameWindow.h"
@@ -8,58 +8,43 @@
 #include "../public/LevelFactory.h"
 #include "../public/DeltaTime.h"
 
-Game::Game(token)
+GameEngine::GameEngine()
 {
-    std::cout << "Game instance created" << std::endl;
-}
-
-Game::~Game()
-{
-    std::cout << "Game instance destroyed" << std::endl;
-}
-
-bool Game::Init()
-{
-    bool ret = 0;
-
-    ret = SDL_Init(SDL_INIT_EVERYTHING);
+    int ret = SDL_Init(SDL_INIT_EVERYTHING);
     if (ret != 0)
     {
         std::cout << "SDL_Init failed: " << SDL_GetError() << std::endl;
-        return false;
+        return;
     }
 
-    ret = GameWindow::instance().Init();
-    if (!ret)
+    _running = GameWindow::instance().Init();
+    if (!_running)
     {
         std::cout << "GameWindow::Init failed" << std::endl;
-        return false;
+        return;
     }
 
-    if (!RenderInstanceManager::instance().AddRaycastRenderer())
+    if (!RenderInstanceManager::instance().CreateRaycastRenderer())
     {
         std::cout << "GameRenderer::Init failed" << std::endl;
-        return false;
+        return;
     }
 
     RenderInstanceManager::instance().GetRenderer(0)->Init();
 
-    ret = InputManager::instance().Init();
-    if (!ret)
+    _running = InputManager::instance().Init();
+    if (!_running)
     {
         std::cout << "InputManager::Init failed" << std::endl;
-        return false;
+        return;
     }
 
-    LevelManager::instance().LoadLevel(LevelFactory::instance().CreateLevel());
+    LevelManager::instance().LoadLevel( LevelFactory::CreateLevel());
+    LevelManager::instance().BeginPlay();
 
-    LevelManager::instance().GetLevel()->GetPlayer()->Start();
-
-    _running = true;
-    return true;
 }
 
-void Game::Update()
+void GameEngine::Update()
 {
     Time::UpdateDeltaTime();
 

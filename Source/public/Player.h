@@ -25,7 +25,7 @@ public:
     double GetPlaneX() const {return _plane.X;}
     double GetPlaneY() const {return _plane.Y;}
 
-    void Start() override;
+    void BeginPlay() override;
     void FixedUpdate() override;
     void Update() override;
     void LateUpdate() override;

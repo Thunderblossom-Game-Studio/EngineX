@@ -6,9 +6,10 @@
 #include <SDL.h>
 
 RaycastRenderer::RaycastRenderer(SDL_Window *pWindow, const char *id)
-        : GameRenderer(pWindow, id) {}
+        : GameRenderer(pWindow, id)
+        {
 
-void RaycastRenderer::Init() {}
+        }
 
 void RaycastRenderer::DrawFrame() {
     // Clear the screen
@@ -28,7 +29,13 @@ void RaycastRenderer::DrawFrame() {
     Vector2 cameraPlane = _pCamera->GetPlane();
 
     // Store the world map
-    _worldMap = LevelManager::instance().GetLevel()->GetMap();
+    _worldMap = LevelManager::instance().GetMap();
+
+    // Verify that the world map is not empty
+    if (_worldMap.empty()) {
+        std::cout << "World map is empty" << std::endl;
+        return;
+    }
 
     // Draw the walls
     for (int x = 0; x < SCREEN_WIDTH; x++) {
@@ -107,19 +114,33 @@ void RaycastRenderer::DrawFrame() {
         if (drawEnd >= SCREEN_HEIGHT)
             drawEnd = SCREEN_HEIGHT - 1;
 
+        int color = 255 - (int) (perpWallDist * 10);
+
+        if (color <= 0) {
+            color = 0;
+        }
+
         // Choose wall color
         switch (_worldMap[mapX][mapY]->GetColour()) {
             case 1:
-                SetDrawColor(255, 0, 0, 255);
+                //SetDrawColor(255, 0, 0, 255);
+                SetDrawColor(color, 0, 0, 255);
                 break;
             case 2:
-                SetDrawColor(0, 255, 0, 255);
+                //SetDrawColor(0, 255, 0, 255);
+                SetDrawColor(0, color, 0, 255);
                 break;
             case 3:
-                SetDrawColor(0, 0, 255, 255);
+                //SetDrawColor(0, 0, 255, 255);
+                SetDrawColor(0, 0, color, 255);
                 break;
             case 4:
-                SetDrawColor(125, 125, 125, 255);
+                //SetDrawColor(125, 125, 125, 255);
+                color = 125 - (int) (perpWallDist * 5);
+                if (color <= 0) {
+                    color = 0;
+                }
+                SetDrawColor(color, color, color, 255);
                 break;
             default:
                 SetDrawColor(0, 0, 0, 0);

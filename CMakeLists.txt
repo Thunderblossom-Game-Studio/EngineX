@@ -12,7 +12,7 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/Config.h
         Source/public/DeltaTime.h
         Source/public/ExampleGameObject.h
-        Source/public/Game.h
+        Source/public/GameEngine.h
         Source/public/GameWindow.h
         Source/public/ICollidableObject.h
         Source/public/IDamageable.h
@@ -32,11 +32,12 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/Camera.h
         Source/public/Component.h
         Source/public/HealthComponent.h
+        Source/public/TextureManager.h
 
         Source/private/AssetManager.cpp
         Source/private/DeltaTime.cpp
         Source/private/ExampleGameObject.cpp
-        Source/private/Game.cpp
+        Source/private/GameEngine.cpp
         Source/private/GameWindow.cpp
         Source/private/InputManager.cpp
         Source/private/Level.cpp
@@ -52,13 +53,16 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/private/Component.cpp
         Source/private/BaseGameObject.cpp
         Source/private/HealthComponent.cpp
-
+        Source/private/TextureManager.cpp
 )
 
 # --- SDL2 SETUP ---
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
-set(SDL2_PATH "SDL2/x86_64-w64-mingw32")
+set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
+set(SDL2_IMAGE_PATH  "SDL2/x86_64-w64-mingw32")
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+
 include_directories(${SDL2_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES})

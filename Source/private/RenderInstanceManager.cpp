@@ -22,7 +22,7 @@ std::shared_ptr<GameRenderer> RenderInstanceManager::AddRenderer()
     return nullptr;
 }
 
-std::shared_ptr<RaycastRenderer> RenderInstanceManager::AddRaycastRenderer()
+std::shared_ptr<RaycastRenderer> RenderInstanceManager::CreateRaycastRenderer()
 {
     _renderers.push_back(std::make_shared<RaycastRenderer>(GameWindow::instance().GetWindow(), "main"));
 
@@ -45,6 +45,6 @@ std::shared_ptr<GameRenderer> RenderInstanceManager::GetRenderer(int index)
     if(index < _renderers.size())
         return _renderers[index];
 
-    std::cout << "Renderer not found" << std::endl;
+    printf("Renderer index %d out of bounds\n", index);
     return nullptr;
 }

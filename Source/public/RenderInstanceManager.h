@@ -19,7 +19,7 @@ public:
 
     std::shared_ptr<GameRenderer> AddRenderer();
 
-    std::shared_ptr<RaycastRenderer> AddRaycastRenderer();
+    std::shared_ptr<RaycastRenderer> CreateRaycastRenderer();
 
     void RemoveRenderer();
 

@@ -1,4 +1,3 @@
-
 #include "HealthComponent.h"
 
 HealthComponent::HealthComponent(BaseGameObject *gameObject)
