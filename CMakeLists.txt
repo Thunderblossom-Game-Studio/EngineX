@@ -64,3 +64,19 @@ find_package(SDL2 REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
+
+if (WIN32)
+    add_custom_command(
+        TARGET RaycastRenderer POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:RaycastRenderer>"
+        VERBATIM
+    )
+elseif(UNIX)
+    add_custom_command(
+        TARGET RaycastRenderer POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:RaycastRenderer>"
+        #COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2main>" "$<TARGET_FILE_DIR:RaycastRenderer>"
+        VERBATIM
+    )
+endif()
+
