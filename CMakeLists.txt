@@ -8,7 +8,7 @@ include_directories(Source/public SDL2)
 # Must set the path to the main.cpp, for example: scripts/main.cpp if it is inside a folder
 add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/AssetManager.h
-        Source/public/GameObject.h
+        Source/public/BaseGameObject.h
         Source/public/Config.h
         Source/public/DeltaTime.h
         Source/public/ExampleGameObject.h
@@ -50,7 +50,7 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/private/Camera.cpp
         Source/private/Wall.cpp
         Source/private/Component.cpp
-        Source/private/GameObject.cpp
+        Source/private/BaseGameObject.cpp
         Source/private/HealthComponent.cpp
 )
 
