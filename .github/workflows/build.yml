@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up CMake
+      uses: actions/setup-cmake@v3
+      with:
+        cmake-version: 3.22
+
+    - name: Build and install SDL2
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        cmake --build . --target install
+
+    - name: Build the project
+      run: |
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        cmake --build .
+
+    - name: Run tests
+      run: |
+        cd build
+        ./RaycastRenderer
