@@ -32,7 +32,7 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/Camera.h
         Source/public/Component.h
         Source/public/HealthComponent.h
-        Source/public/TextureManager.h
+        #Source/public/TextureManager.h
 
         Source/private/AssetManager.cpp
         Source/private/DeltaTime.cpp
@@ -53,7 +53,7 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/private/Component.cpp
         Source/private/BaseGameObject.cpp
         Source/private/HealthComponent.cpp
-        Source/private/TextureManager.cpp
+        #Source/private/TextureManager.cpp
 )
 
 # --- SDL2 SETUP ---
