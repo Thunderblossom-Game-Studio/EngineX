@@ -56,29 +56,38 @@ add_executable(${PROJECT_NAME} Source/main.cpp
 
 # --- SDL2 SETUP ---
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
-set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
-set(SDL2_DLL         "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/bin/SDL2.dll")
-set(SDL2_LIBRARIES   "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/lib/libSDL2.dll.a")
 
-find_package(SDL2 REQUIRED)
+# Platform-specific setup for SDL2
+if(WIN32)
+    # Windows specific paths
+    set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
+    set(SDL2_DLL         "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/bin/SDL2.dll")
+    set(SDL2_LIBRARIES   "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/lib/libSDL2.dll.a")
 
-include_directories(${SDL2_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
+    # Additional Windows-specific libraries
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIR})
+    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ole32 oleaut32 uuid kernel32 user32)
 
-# --- POST-BUILD COMMAND TO COPY SDL2 DLL/SO ---
-if (WIN32)
+    # Post-build command to copy SDL2 DLL
     add_custom_command(
-            TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-            "${SDL2_DLL}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-            VERBATIM
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+        "${SDL2_DLL}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        VERBATIM
     )
+
 elseif(UNIX)
+    # Linux/Mac specific SDL2 setup
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+
+    # Post-build command for copying the SDL2 shared object (if needed)
     add_custom_command(
-            TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-            "${SDL2_LIBRARIES}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-            VERBATIM
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+        "${SDL2_LIBRARIES}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        VERBATIM
     )
 endif()
-
