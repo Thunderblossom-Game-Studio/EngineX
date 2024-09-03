@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include <iostream>
 
-int main(int argc, char** argv)
+int main()
 {
     std::cout << "Running main" << std::endl;
     GameEngine game;
