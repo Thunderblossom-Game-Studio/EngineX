@@ -56,14 +56,12 @@ add_executable(${PROJECT_NAME} Source/main.cpp
 
 # --- SDL2 SETUP ---
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
+set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
+set(SDL2_DLL         "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/bin/SDL2.dll")
+set(SDL2_LIBRARIES   "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/lib/libSDL2.dll.a")
 
 # Platform-specific setup for SDL2
 if(WIN32)
-    # Windows specific paths
-    set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
-    set(SDL2_DLL         "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/bin/SDL2.dll")
-    set(SDL2_LIBRARIES   "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/lib/libSDL2.dll.a")
-
     # Additional Windows-specific libraries
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
