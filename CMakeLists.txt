@@ -59,7 +59,7 @@ add_executable(${PROJECT_NAME}
 
 # --- SDL2 SETUP ---
 # Optionally, set SDL2_PATH if you need to manually specify it
-#set(SDL2_PATH "SDL2/x86_64-w64-mingw32")
+set(SDL2_PATH "SDL2/x86_64-w64-mingw32")
 
 find_package(SDL2 REQUIRED)
 
