@@ -78,7 +78,7 @@ if(WIN32)
 elseif(UNIX)
     # Linux/Mac specific SDL2 setup
     find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIRS})
+    include_directories(${SDL2_INCLUDE_DIR})
     target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 
     # Post-build command for copying the SDL2 shared object (if needed)
