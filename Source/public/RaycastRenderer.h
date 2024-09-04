@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "LevelManager.h"
 #include "Player.h"
 #include "Config.h"

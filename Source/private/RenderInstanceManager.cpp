@@ -2,7 +2,7 @@
 
 #include <iostream> // std::cout, std::endl
 #include "GameWindow.h" // GameWindow::instance
-#include <SDL.h> // SDL_Renderer, SDL_CreateRenderer, SDL_DestroyRenderer
+#include <SDL2/SDL.h> // SDL_Renderer, SDL_CreateRenderer, SDL_DestroyRenderer
 
 #include "Renderer.h" // GameRenderer
 #include "RaycastRenderer.h" // RaycastRenderer

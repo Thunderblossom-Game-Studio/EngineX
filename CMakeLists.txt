@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 project(RaycastRenderer)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-include_directories(Source/public SDL2)
+include_directories(Source/public)
 
-
-# Must set the path to the main.cpp, for example: scripts/main.cpp if it is inside a folder
 add_executable(${PROJECT_NAME} Source/main.cpp
         Source/public/AssetManager.h
         Source/public/BaseGameObject.h
@@ -55,32 +53,16 @@ add_executable(${PROJECT_NAME} Source/main.cpp
         Source/private/HealthComponent.cpp
 )
 
-# --- SDL2 SETUP ---
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
-
-
-# Platform-specific setup for SDL2
 if(WIN32)
-    # Additional Windows-specific libraries
-    set(SDL2_PATH        "SDL2/x86_64-w64-mingw32")
-    set(SDL2_DLL         "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/bin/SDL2.dll")
-    set(SDL2_LIBRARIES   "${CMAKE_SOURCE_DIR}/SDL2/x86_64-w64-mingw32/lib/libSDL2.dll.a")
-    
-    find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ole32 oleaut32 uuid kernel32 user32)
-
-    # Post-build command to copy SDL2 DLL
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-        "${SDL2_DLL}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-        VERBATIM
-    )
-
+    find_package(Vulkan REQUIRED)
+    target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS} $ENV{VULKAN_SDK}/include/glm ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw/include)
+    target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan $ENV{VULKAN_SDK}/lib/SDL2.lib ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw/lib-mingw-w64/libglfw3.a)
 elseif(UNIX)
-    # Linux/Mac specific SDL2 setup
+    find_package(Vulkan REQUIRED)
+    find_package(glfw3 REQUIRED)
+    find_package(glm REQUIRED)
     find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
+    include_directories(${GLFW3_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})
+
+    target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan glfw glm::glm SDL2)
 endif()

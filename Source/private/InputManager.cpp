@@ -1,5 +1,5 @@
-#include "../public/InputManager.h"
-#include <SDL.h>
+#include "InputManager.h"
+#include <SDL2/SDL.h>
 
 InputManager::InputManager(token)
 {
