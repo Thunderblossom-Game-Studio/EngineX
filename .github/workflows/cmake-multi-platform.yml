@@ -22,14 +22,12 @@ jobs:
         c_compiler: [gcc, cl]
         include:
           - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
+            c_compiler: gcc
+            cpp_compiler: g++
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
         exclude:
-          - os: windows-latest
-            c_compiler: gcc
           - os: windows-latest
             c_compiler: clang
           - os: ubuntu-latest
@@ -45,8 +43,6 @@ jobs:
        
     - name: Setup SDL
       uses: libsdl-org/setup-sdl@v1
-            
-    - uses: actions/checkout@v4
 
     - name: Set reusable strings
       id: strings
