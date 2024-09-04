@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: Automated Build and Release
 
 on:
   push:
@@ -63,26 +63,31 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
       
-    - name: Archive binaries (Linux)
-      if: runner.os == 'Linux'
-      run: |
-        mkdir -p binaries
-        cp -r ${{ steps.strings.outputs.build-output-dir }}/* binaries/
-      shell: bash
-
-    - name: Archive binaries (Windows)
+    - name: Archive build outputs (Windows)
       if: runner.os == 'Windows'
       run: |
-        mkdir binaries
-        xcopy "${{ steps.strings.outputs.build-output-dir }}\*" binaries\ /s /e /y
-      shell: cmd
+        mkdir -p output
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/*.exe output/
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/*.dll output/
+        # Copy any additional files or directories required
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/assets output/
+      shell: bash
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Archive build outputs (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        mkdir -p output
+        cp ${{ steps.strings.outputs.build-output-dir }}/your_program output/
+        # Copy any additional files or directories required
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/assets output/
+      shell: bash
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
       with:
-        name: binaries-${{ matrix.os }}
-        path: binaries/
-
+        name: build-output-${{ matrix.os }}
+        path: output/
+        
   release:
     needs: build
     runs-on: ubuntu-latest
