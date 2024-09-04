@@ -20,7 +20,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [gcc, cl]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -28,9 +28,6 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -77,7 +74,7 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         mkdir binaries
-        for /r "%G" in (*) do @if not "%G"=="${{ steps.strings.outputs.build-output-dir }}" copy "%G" binaries\
+        xcopy "${{ steps.strings.outputs.build-output-dir }}\*" binaries\ /s /e /y
       shell: cmd
 
     - name: Upload artifact
