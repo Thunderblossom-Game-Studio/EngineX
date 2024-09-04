@@ -69,12 +69,20 @@ jobs:
     - name: Archive binaries
       if: ${{ success() }}
       run: |
-        mkdir -p binaries
-        cp -r ${{ steps.strings.outputs.build-output-dir }}/* binaries/
+        mkdir -p binaries || exit 0 # Create binaries directory (works for Linux)
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          # Windows-specific commands
+          echo "Copying binaries on Windows..."
+          xcopy /E /I "${{ steps.strings.outputs.build-output-dir }}\*" "binaries\"
+        else
+          # Linux-specific commands
+          echo "Copying binaries on Linux..."
+          cp -r ${{ steps.strings.outputs.build-output-dir }}/* binaries/
+        fi
       shell: bash
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-${{ matrix.build_type }}-binaries
         path: binaries/
