@@ -82,13 +82,13 @@ elseif(UNIX)
     # Linux/Mac specific SDL2 setup
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
 
     # Post-build command for copying the SDL2 shared object (if needed)
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-        "${SDL2_LIBRARIES}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        "${SDL2_LIBRARY}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
         VERBATIM
     )
 endif()
