@@ -3,7 +3,7 @@
 #include "DeltaTime.h"
 
 #include <iostream>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 RaycastRenderer::RaycastRenderer(SDL_Window *pWindow, const char *id)
         : GameRenderer(pWindow, id)

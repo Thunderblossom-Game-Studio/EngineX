@@ -1,12 +1,12 @@
 #include "../public/GameEngine.h"
 #include <iostream> // std::cout, std::endl
-#include <../SDL2/SDL.h> // SDL_Init, SDL_Quit
-#include "../public/GameWindow.h"
-#include "../public/RenderInstanceManager.h"
-#include "../public/InputManager.h"
-#include "../public/LevelManager.h"
-#include "../public/LevelFactory.h"
-#include "../public/DeltaTime.h"
+#include <SDL2/SDL.h> // SDL_Init, SDL_Quit
+#include "GameWindow.h"
+#include "RenderInstanceManager.h"
+#include "InputManager.h"
+#include "LevelManager.h"
+#include "LevelFactory.h"
+#include "DeltaTime.h"
 
 GameEngine::GameEngine()
 {
