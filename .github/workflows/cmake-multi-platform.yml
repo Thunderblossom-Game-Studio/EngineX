@@ -65,20 +65,20 @@ jobs:
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
-
+      
+    - name: Archive binaries (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        mkdir -p binaries
+        cp -r ${{ steps.strings.outputs.build-output-dir }}/* binaries/
+      shell: bash
 
     - name: Archive binaries (Windows)
       if: runner.os == 'Windows'
       run: |
         mkdir binaries
-        xcopy ${{ steps.strings.outputs.build-output-dir }} binaries /s /e
+        for /r "%G" in (*) do @if not "%G"=="${{ steps.strings.outputs.build-output-dir }}" copy "%G" binaries\
       shell: cmd
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.os }}-${{ matrix.build_type }}-binaries
-        path: binaries/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
