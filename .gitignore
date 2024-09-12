@@ -34,4 +34,6 @@
 /.idea
 /.vscode
 /cmake-build-debug
-cmake-build-debug
+/out
+/.cache
+compile_commands.json
