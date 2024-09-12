@@ -37,3 +37,4 @@
 /out
 /.cache
 compile_commands.json
+/src/thirdparty
