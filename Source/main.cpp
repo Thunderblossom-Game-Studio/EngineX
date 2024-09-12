@@ -1,21 +1,19 @@
-#include "GameEngine.h"
 #include <iostream>
 
-int main()
-{
-    std::cout << "Running main" << std::endl;
-    GameEngine game;
+#include "GameEngine.h"
 
-    if(!game.IsRunning())
-    {
-        std::cout << "Game::Init failed" << std::endl;
-        return -1;
-    }
+int main() {
+  std::cout << "Running main" << std::endl;
+  GameEngine game;
 
-    while(game.IsRunning())
-    {
-        game.Update();
-    }
+  if (!game.IsRunning()) {
+    std::cout << "Game::Init failed" << std::endl;
+    return -1;
+  }
 
-    return 0;
+  while (game.IsRunning()) {
+    game.Update();
+  }
+
+  return 0;
 }

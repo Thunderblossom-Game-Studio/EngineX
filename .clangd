@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-I/Source, -I/Source/public, -I/Source/private]
