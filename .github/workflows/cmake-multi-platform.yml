@@ -43,13 +43,6 @@ jobs:
 
     - name: Setup SDL
       uses: libsdl-org/setup-sdl@v1
-
-    - name: Check Vulkan SDK Installation Path
-      run: |
-        echo "VULKAN_SDK: $VULKAN_SDK"
-        ls -la $VULKAN_SDK
-        ls -la $VULKAN_SDK/include
-        ls -la $VULKAN_SDK/lib
         
     - uses: actions/checkout@v2
 
