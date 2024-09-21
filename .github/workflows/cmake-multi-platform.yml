@@ -50,12 +50,7 @@ jobs:
         ls -la $VULKAN_SDK
         ls -la $VULKAN_SDK/include
         ls -la $VULKAN_SDK/lib
-    
-    - name: Check SDL Installation Path
-      run: |
-        where sdl2-config
-        where vulkan
-    
+        
     - uses: actions/checkout@v2
 
     - name: Set reusable strings
@@ -79,4 +74,3 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
 
-      
