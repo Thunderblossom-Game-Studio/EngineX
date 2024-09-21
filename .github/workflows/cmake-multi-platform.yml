@@ -43,7 +43,7 @@ jobs:
 
     - name: Check Vulkan
       run: |
-        echo "Vulkan SDK: $VULKAN_SDK"
+        echo "Variables Set: ${{ github.env }}"
 
     - name: Setup SDL
       uses: libsdl-org/setup-sdl@v1
